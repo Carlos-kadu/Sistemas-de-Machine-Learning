@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agente de Previsão de Churn</title>
+  <link rel="stylesheet" href="/static/style.css?v=20260710-9" />
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="hero-copy">
+        <h1>Previsão de churn</h1>
+        <p class="hero-text">
+          Analise o risco de cancelamento de um cliente e receba uma recomendação objetiva para retenção.
+        </p>
+
+        <div class="hero-actions">
+          <button id="start-analysis-btn" type="button" class="primary-button">Começar análise</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="metrics-panel" class="metrics-panel">
+      <div class="panel-header">
+        <div>
+          <h2>Métricas do sistema</h2>
+          <p>Resumo das análises realizadas nesta execução.</p>
+        </div>
+        <div class="panel-actions">
+          <button id="refresh-metrics-btn" type="button" class="ghost-button">Atualizar</button>
+        </div>
+      </div>
+
+      <div id="metrics-message" class="panel-message"></div>
+
+      <div class="metrics-grid">
+        <article class="metric-box">
+          <span>Previsões</span>
+          <strong id="metrics-predictions">--</strong>
+        </article>
+        <article class="metric-box">
+          <span>Latência média</span>
+          <strong id="metrics-latency">--</strong>
+        </article>
+        <article class="metric-box">
+          <span>Fallbacks</span>
+          <strong id="metrics-fallbacks">--</strong>
+        </article>
+        <article class="metric-box">
+          <span>Taxa de fallback</span>
+          <strong id="metrics-fallback-rate">--</strong>
+        </article>
+      </div>
+
+      <div class="risk-breakdown" aria-label="Distribuição por risco">
+        <span>Baixo <strong id="metrics-low">0</strong></span>
+        <span>Médio <strong id="metrics-medium">0</strong></span>
+        <span>Alto <strong id="metrics-high">0</strong></span>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <form id="churn-form" class="assistant-card">
+        <div class="panel-header">
+          <div>
+            <h2>Assistente guiado</h2>
+            <p>Preencha os dados do cliente em três etapas.</p>
+          </div>
+          <div id="loading" class="loading hidden">Analisando...</div>
+        </div>
+
+        <div id="conversation" class="conversation">
+          <div class="bubble bot">
+            Primeiro preencha o perfil do cliente. Depois seguimos para serviços, valores e análise.
+          </div>
+        </div>
+
+        <div class="step-track" aria-hidden="true">
+          <span class="step-dot active"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+        </div>
+
+        <section class="step-card" data-step="1">
+          <div class="step-head">
+            <span>Etapa 1</span>
+            <h3>Perfil do cliente</h3>
+            <p>Informações básicas para contextualizar a análise.</p>
+          </div>
+
+          <div class="grid">
+            <label>
+              Gênero
+              <select name="gender" required>
+                <option value="" disabled selected>Selecione...</option>
+                <option value="Female">Feminino</option>
+                <option value="Male">Masculino</option>
+              </select>
+            </label>
+
+            <label>
+              Pessoa idosa
+              <select name="SeniorCitizen" required>
+                <option value="" disabled selected>Selecione...</option>
+                <option value="0">Não</option>
+                <option value="1">Sim</option>
+              </select>
+            </label>
+
+            <label>
+              Possui parceiro?
+              <select name="Partner" required>
+                <option value="" disabled selected>Selecione...</option>
+                <option value="Yes">Sim</option>
+                <option value="No">Não</option>
+              </select>
+            </label>
+
+            <label>
+              Possui dependentes?
+              <select name="Dependents" required>
+                <option value="" disabled selected>Selecione...</option>
+                <option value="Yes">Sim</option>
+                <option value="No">Não</option>
+              </select>
+            </label>
+          </div>
+
+          <button id="step-1-btn" type="button" class="primary-button step-button">Continuar</button>
+        </section>
+
+        <section class="step-card" data-step="2" hidden>
+          <div class="step-head">
+            <span>Etapa 2</span>
+            <h3>Serviços contratados</h3>
+            <p>Agora preencha os serviços e o tipo de contrato.</p>
+          </div>
+
+          <div class="grid">
+            <label>
+              Tempo de contrato (em meses)
+              <input type="number" name="tenure" min="0" step="1" placeholder="Ex.: 12 meses" required />
+            </label>
+
+            <label>
+              Serviço de telefone
+              <select name="PhoneService" required>
+                <option value="" disabled selected>Selecione...</option>
+                <option value="Yes">Sim</option>
+                <option value="No">Não</option>
+              </select>
+            </label>
+
+            <label>
+              Várias linhas
+              <select name="MultipleLines" required>
+                <option value="" disabled selected>Selecione...</option>
+                <option value="No phone service">Sem serviço telefônico</option>
+                <option value="Yes">Sim</option>
+                <option value="No">Não</option>
+              </select>
+            </label>
+
+            <label>
+              Tipo de internet
+              <select name="InternetService" required>
+                <option value="" disabled selected>Selecione...</option>
+                <option value="DSL">DSL</option>
+                <option value="Fiber optic">Fibra óptica</option>
+                <option value="No">Sem internet</option>
+              </select>
+            </label>
+
+            <label>
+              Segurança online
+              <select name="OnlineSecurity" required>
+                <option value="" disabled selected>Selecione...</option>
+                <option value="No internet service">Sem internet</option>
+                <option value="Yes">Sim</option>
+                <option value="No">Não</option>
+              </select>
+            </label>
+
+            <label>
+              Backup online
+              <select name="OnlineBackup" required>
+                <option value="" disabled selected>Selecione...</option>
+                <option value="No internet service">Sem internet</option>
+                <option value="Yes">Sim</option>
+                <option value="No">Não</option>
+              </select>
+            </label>
+
+            <label>
+              Proteção do dispositivo
+              <select name="DeviceProtection" required>
+                <option value="" disabled selected>Selecione...</option>
+                <option value="No internet service">Sem internet</option>
+                <option value="Yes">Sim</option>
+                <option value="No">Não</option>
+              </select>
+            </label>
+
+            <label>
+              Suporte técnico
+              <select name="TechSupport" required>
+                <option value="" disabled selected>Selecione...</option>
+                <option value="No internet service">Sem internet</option>
+                <option value="Yes">Sim</option>
+                <option value="No">Não</option>
+              </select>
+            </label>
+
+            <label>
+              TV por streaming
+              <select name="StreamingTV" required>
+                <option value="" disabled selected>Selecione...</option>
+                <option value="No internet service">Sem internet</option>
+                <option value="Yes">Sim</option>
+                <option value="No">Não</option>
+              </select>
+            </label>
+
+            <label>
+              Filmes por streaming
+              <select name="StreamingMovies" required>
+                <option value="" disabled selected>Selecione...</option>
+                <option value="No internet service">Sem internet</option>
+                <option value="Yes">Sim</option>
+                <option value="No">Não</option>
+              </select>
+            </label>
+
+            <label>
+              Plano
+              <select name="Contract" required>
+                <option value="" disabled selected>Selecione...</option>
+                <option value="Month-to-month">Mensal</option>
+                <option value="One year">1 ano</option>
+                <option value="Two year">2 anos</option>
+              </select>
+            </label>
+
+            <label>
+              Cobrança digital
+              <select name="PaperlessBilling" required>
+                <option value="" disabled selected>Selecione...</option>
+                <option value="Yes">Sim</option>
+                <option value="No">Não</option>
+              </select>
+            </label>
+
+            <label>
+              Forma de pagamento
+              <select name="PaymentMethod" required>
+                <option value="" disabled selected>Selecione...</option>
+                <option value="Electronic check">Cheque eletrônico</option>
+                <option value="Mailed check">Cheque enviado</option>
+                <option value="Bank transfer (automatic)">Transferência bancária</option>
+                <option value="Credit card (automatic)">Cartão de crédito</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="step-actions">
+            <button id="back-to-step-1-btn" type="button" class="ghost-button">Voltar</button>
+            <button id="step-2-btn" type="button" class="primary-button step-button">Continuar</button>
+          </div>
+        </section>
+
+        <section class="step-card" data-step="3" hidden>
+          <div class="step-head">
+            <span>Etapa 3</span>
+            <h3>Valores</h3>
+            <p>Último bloco para finalizar a previsão.</p>
+          </div>
+
+          <div class="grid">
+            <label>
+              Valor mensal
+              <input type="number" name="MonthlyCharges" min="0" step="0.01" placeholder="Ex.: 89.90" required />
+            </label>
+
+            <label>
+              Valor total acumulado
+              <input type="number" name="TotalCharges" min="0" step="0.01" placeholder="Ex.: 1200.00" required />
+            </label>
+          </div>
+
+          <div class="step-actions">
+            <button id="back-to-step-2-btn" type="button" class="ghost-button">Voltar</button>
+            <button id="submit-btn" type="submit" class="primary-button">Analisar cliente</button>
+          </div>
+        </section>
+
+        <p id="form-message" class="form-message"></p>
+      </form>
+
+    </section>
+  </main>
+
+  <script src="/static/app.js?v=20260710-9"></script>
+</body>
+</html>

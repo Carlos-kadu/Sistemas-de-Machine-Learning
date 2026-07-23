@@ -1,0 +1,66 @@
+# Environment variables and local secrets
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+
+# Python virtual environments
+.venv/
+venv/
+env/
+ENV/
+**/.venv/
+**/venv/
+**/env/
+**/ENV/
+
+# Python cache and build artifacts
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+**/.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Jupyter and notebooks
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+# Node.js and n8n local artifacts
+node_modules/
+**/node_modules/
+.n8n/
+
+# ML and experiment outputs
+mlruns/
+**/mlruns/
+artifacts/
+**/artifacts/
+
+# Logs and runtime files
+logs/
+**/logs/
+*.log
+*.jsonl
+
+# OS and editor artifacts
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Project-generated data outputs
+projeto-4/data/raw/
+projeto-4/data/catalog/
+projeto-4/data/processed/

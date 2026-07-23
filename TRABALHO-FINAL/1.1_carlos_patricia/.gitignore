@@ -1,0 +1,14 @@
+# Env(s)
+**/.venv/
+**/venv/
+**/env/
+**/ENV/
+
+# Python caches
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+.env
+logs/*.jsonl

@@ -1,0 +1,55 @@
+{
+  "test_size": 1409,
+  "validation_size": 1127,
+  "model_comparison": {
+    "baseline_always_no_churn": {
+      "accuracy": 0.7345635202271115,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "roc_auc": 0.5,
+      "decision_threshold": 0.5
+    },
+    "logistic_regression_balanced": {
+      "accuracy": 0.7771469127040455,
+      "precision": 0.5669642857142857,
+      "recall": 0.679144385026738,
+      "f1": 0.6180048661800487,
+      "roc_auc": 0.8421271538918598,
+      "decision_threshold": 0.64
+    },
+    "random_forest_balanced": {
+      "accuracy": 0.7814052519517388,
+      "precision": 0.5781990521327014,
+      "recall": 0.6524064171122995,
+      "f1": 0.6130653266331658,
+      "roc_auc": 0.8382185021571211,
+      "decision_threshold": 0.54,
+      "validation_f1": 0.6448,
+      "validation_roc_auc": 0.8439,
+      "selected_params": {
+        "n_estimators": 400,
+        "max_depth": 12,
+        "min_samples_leaf": 2,
+        "max_features": "sqrt"
+      }
+    }
+  },
+  "fairness_by_gender": {
+    "Male": {
+      "count": 722,
+      "actual_churn": 181,
+      "recall": 0.6685082872928176,
+      "precision": 0.5525114155251142,
+      "f1": 0.605
+    },
+    "Female": {
+      "count": 687,
+      "actual_churn": 193,
+      "recall": 0.6373056994818653,
+      "precision": 0.6059113300492611,
+      "f1": 0.6212121212121212
+    },
+    "recall_gap_abs": 0.03120258781095231
+  }
+}

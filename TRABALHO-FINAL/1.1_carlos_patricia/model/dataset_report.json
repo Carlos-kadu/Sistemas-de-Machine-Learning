@@ -1,0 +1,54 @@
+{
+  "source_rows": 7043,
+  "usable_rows": 7043,
+  "discarded_rows": 0,
+  "missing_values": {
+    "TotalCharges": 11
+  },
+  "duplicates": {
+    "count": 22,
+    "unique_duplicate_rows": 20
+  },
+  "unexpected_categories": {},
+  "negative_values": {},
+  "descriptive_statistics": {
+    "tenure": {
+      "count": 7043,
+      "mean": 32.3711,
+      "std": 24.5577,
+      "min": 0.0,
+      "q1": 9.0,
+      "median": 29.0,
+      "q3": 55.0,
+      "max": 72.0
+    },
+    "MonthlyCharges": {
+      "count": 7043,
+      "mean": 64.7617,
+      "std": 30.0879,
+      "min": 18.25,
+      "q1": 35.5,
+      "median": 70.35,
+      "q3": 89.85,
+      "max": 118.75
+    },
+    "TotalCharges": {
+      "count": 7043,
+      "mean": 2279.7343,
+      "std": 2266.6335,
+      "min": 0.0,
+      "q1": 398.55,
+      "median": 1394.55,
+      "q3": 3786.6,
+      "max": 8684.8
+    }
+  },
+  "target_distribution": {
+    "churn_0": 5174,
+    "churn_1": 1869,
+    "churn_0_pct": 73.46,
+    "churn_1_pct": 26.54
+  },
+  "outlier_policy": "No automatic outlier removal was applied. The dataset is predominantly categorical, and Random Forest is robust to extreme values. We preferred conservative cleaning and documentation over aggressive row removal.",
+  "decision_threshold": 0.54
+}
